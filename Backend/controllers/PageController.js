@@ -17,7 +17,7 @@ function PageData(data) {
 exports.getPageList = [
     function(req, res) {
         try {
-            Page.find({}, "").then((page) => {
+            Page.find({}, "content").then((page) => {
                 if (page.length > 0) {
                     return apiResponse.successResponseWithData(res, "Operation success", page);
                 } else {
