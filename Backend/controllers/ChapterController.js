@@ -12,14 +12,14 @@ var mongoose = require("mongoose");
 function ChapterData(data) {
     this.name = data.name;
     this.author = data.author;
-    this.subjects = data.subjects;
+    this.subject = data.subject;
     this.pages = data.pages;
 }
 
 exports.getChapterList = [
     function (req, res) {
         try {
-            Chapter.find({}, "content").then((chapter) => {
+            Chapter.find({}).then((chapter) => {
                 if (chapter.length > 0) {
                     return apiResponse.successResponseWithData(res, "Operation success", chapter);
                 } else {
@@ -39,7 +39,7 @@ exports.getChapter = [
         //    return apiResponse.successResponseWithData(res, "Operation success", {});
         //}
         try {
-            Chapter.findOne({ _id: req.params.id }, "_id type title author").then((chapter) => {
+            Chapter.findOne({ _id: req.params.id }).then((chapter) => {
                 if (Chapter !== null) {
                     let chapterData = new ChapterData(Chapter);
                     return apiResponse.successResponseWithData(res, "Operation success.", chapter);
@@ -64,13 +64,15 @@ exports.addChapter = [
     (req, res) => {
         try {
 
+            console.log(req.body);
+
             const errors = validationResult(req);
 
             var chapter = new Chapter(
                 {
                     name: req.body.name,
                     author: req.body.author,
-                    subjects: req.body.subjects,
+                    subject: req.body.subject,
                     pages: req.body.pages
                 });
 
@@ -100,22 +102,16 @@ exports.updateChapter = [
     //sanitizeBody("*").escape(),
     (req, res) => {
 
-        console.log("Hej på dig");
-        console.log(req.params.id);
-        console.log('Body');
-        console.log(req.body);
         try {
             const errors = validationResult(req);
             var chapter = new Chapter(
                 {
+                    _id: req.params.id,
                     name: req.body.name,
                     author: req.body.author,
                     subjects: req.body.subjects,
                     pages: req.body.pages
                 });
-
-            console.log('chapter');
-            console.log(chapter);
 
             if (!errors.isEmpty()) {
                 return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
@@ -168,7 +164,6 @@ exports.deleteChapter = [
                         }
                     });
                 }
-
             });
         } catch (err) {
             //throw error in json response with status 500. 

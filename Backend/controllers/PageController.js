@@ -30,6 +30,8 @@ function SubSchema(subType, data) {
                     correctAnswer: data.correctAnswer
                 });
         case "cloze":
+            body("type", "Type must not be empty.").isLength({ min: 1 }).trim();
+            body("title", "Title must not be empty.").isLength({ min: 1 }).trim();
             return new Cloze(
                 {
                     sentence: data.sentence,
@@ -67,7 +69,7 @@ exports.getPage = [
             Page.findOne({ _id: req.params.id }).then((page) => {
                 if (Page !== null) {
                     let pageData = new PageData(Page);
-                    return apiResponse.successResponseWithData(res, "Operation success.", page);
+                    return apiResponse.successResponseOnlyJSONObject(res, page);
                 } else {
                     return apiResponse.successResponseWithData(res, "Operation success", {});
                 }
@@ -81,9 +83,9 @@ exports.getPage = [
 
 
 exports.addPage = [
-    //body("type", "Type must not be empty.").isLength({ min: 1 }).trim(),
-    //body("title", "Title must not be empty.").isLength({ min: 1 }).trim(),
-    //body("author", "Author must not be empty").isLength({ min: 1 }).trim()
+    body("type", "Type must not be empty.").isLength({ min: 1 }).trim(),
+    body("title", "Title must not be empty.").isLength({ min: 1 }).trim(),
+    body("author", "Author must not be empty").isLength({ min: 1 }).trim(),
     //,
     //sanitizeBody("*").escape(),
     (req, res) => {
@@ -119,20 +121,18 @@ exports.addPage = [
 ];
 
 exports.updatePage = [
-    body("type", "Type must not be empty.").isLength({ min: 1 }).trim(),
-    body("title", "Title must not be empty.").isLength({ min: 1 }).trim(),
-    body("author", "Author must not be empty").isLength({ min: 1 }).trim()
-    ,
-    sanitizeBody("*").escape(),
     (req, res) => {
         try {
             const errors = validationResult(req);
-            var page = new BlankPage(
+            var subSchema = SubSchema(req.body.type, req.body.content);
+
+            var page = new Page(
                 {
+                    _id: req.params.id,
                     type: req.body.type,
                     title: req.body.title,
                     author: req.body.author,
-                    _id: req.params.id
+                    content: subSchema
                 });
 
             if (!errors.isEmpty()) {

@@ -6,7 +6,7 @@ var ChapterSchema = new Schema(
     {
         name: { type: String, required: true },
         author: { type: String, required: true },
-        subjects: { type: String, required: true },
+        subject: { type: String, required: true },
         pages: { type: [Schema.Types.ObjectId], required: true }
     },
     {
