@@ -9,8 +9,4 @@ router.get("/:id", PageController.getPage);
 router.put("/:id", PageController.updatePage);
 router.delete("/:id", PageController.deletePage);
 
-//router.post("/missing-word/", PageController.addMissingWord);
-//router.post("/blank-page/", PageController.addBlankPage);
-
-
 module.exports = router;

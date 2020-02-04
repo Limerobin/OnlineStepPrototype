@@ -1,0 +1,21 @@
+{
+	"type":"mcq",
+	"title":"Vart bor jag",
+	"author":"Team Erik",
+	"content": {
+		"question":"Erik bor i Borlänge",
+		"answers": ["Falun", "Borlänge"],
+		"correctAnswer": "Falun"
+	}
+}
+
+
+{
+	"type":"cloze",
+	"title":"Vart bor jag",
+	"author":"Team Erik",
+	"content": {
+		"sentence":"Erik bor i Borlänge",
+		"missingWords": ["Falun", "Borlänge"]
+	}
+}

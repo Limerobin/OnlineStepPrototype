@@ -1,9 +1,14 @@
+// Mongoose Models
 const Page = require("../models/PageModel");
+const Cloze = require("../models/ClozeModel");
+const Mcq = require("../models/McqModel");
+
+// Middlewares that wraps validator.js validator and sanitizer functions.
 const { body, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 
-var mongoose = require("mongoose");
 const apiResponse = require("../helpers/apiResponse");
+var mongoose = require("mongoose");
 
 // Page Schema
 function PageData(data) {
@@ -11,8 +16,30 @@ function PageData(data) {
     this.title = data.title;
     this.author = data.author;
     this.content = data.content;
+}
+
+// Sub Schema
+function SubSchema(subType, data) {
+
+    switch (subType) {
+        case "mcq":
+            return new Mcq(
+                {
+                    question: data.question,
+                    answers: data.answers,
+                    correctAnswer: data.correctAnswer
+                });
+        case "cloze":
+            return new Cloze(
+                {
+                    sentence: data.sentence,
+                    missingWords: data.missingWords
+                });
+        default:
+    }
 
 }
+
 
 exports.getPageList = [
     function(req, res) {
@@ -54,23 +81,25 @@ exports.getPage = [
 
 
 exports.addPage = [
-    body("type", "Type must not be empty.").isLength({ min: 1 }).trim(),
-    body("title", "Title must not be empty.").isLength({ min: 1 }).trim(),
-    body("author", "Author must not be empty").isLength({ min: 1 }).trim()
-    ,
-    sanitizeBody("*").escape(),
+    //body("type", "Type must not be empty.").isLength({ min: 1 }).trim(),
+    //body("title", "Title must not be empty.").isLength({ min: 1 }).trim(),
+    //body("author", "Author must not be empty").isLength({ min: 1 }).trim()
+    //,
+    //sanitizeBody("*").escape(),
     (req, res) => {
         try {
-            console.log(req.body);
+           
             const errors = validationResult(req);
+
+            var subSchema = SubSchema(req.body.type, req.body.content);
+
             var page = new Page(
                 {
                     type: req.body.type,
                     title: req.body.title,
                     author: req.body.author,
-                    content: req.body.content
+                    content: subSchema
                 });
-
 
             if (!errors.isEmpty()) {
                 return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());

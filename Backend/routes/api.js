@@ -1,7 +1,6 @@
 var express = require("express");
 var userRouter = require("./users");
 var pageRouter = require("./pages");
-var MissingWordRouter = require("./pages/missing-words");
 
 var app = express();
 
