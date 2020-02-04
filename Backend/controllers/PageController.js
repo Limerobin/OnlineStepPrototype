@@ -1,24 +1,24 @@
-// Mongoose Models
+//Mongoose Models
 const Page = require("../models/PageModel");
 const Cloze = require("../models/ClozeModel");
 const Mcq = require("../models/McqModel");
 
-// Middlewares that wraps validator.js validator and sanitizer functions.
+//Middlewares that wraps validator.js validator and sanitizer functions.
 const { body, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 
 const apiResponse = require("../helpers/apiResponse");
 var mongoose = require("mongoose");
 
-// Page Schema
+//PageSchema (main-schema) 
 function PageData(data) {
     this.type = data.type;
     this.title = data.title;
     this.author = data.author;
-    this.content = data.content;
+    this.content = data.content; //sub-schema depending on type 
 }
 
-// Sub Schema
+//Creates and returns different SubSchema depending on subType(req.body.type)
 function SubSchema(subType, data) {
 
     switch (subType) {
@@ -30,70 +30,64 @@ function SubSchema(subType, data) {
                     correctAnswer: data.correctAnswer
                 });
         case "cloze":
-            body("type", "Type must not be empty.").isLength({ min: 1 }).trim();
-            body("title", "Title must not be empty.").isLength({ min: 1 }).trim();
             return new Cloze(
                 {
                     sentence: data.sentence,
                     missingWords: data.missingWords
                 });
         default:
+            return null;
     }
-
 }
 
-
+//Returns all pages
 exports.getPageList = [
     function(req, res) {
         try {
-            Page.find({}, "content").then((page) => {
+            Page.find({}).then((page) => {
                 if (page.length > 0) {
-                    return apiResponse.successResponseWithData(res, "Operation success", page);
+                    return apiResponse.successResponseOnlyJSONObject(res, page);
                 } else {
-                    return apiResponse.successResponseWithData(res, "Operation success", []);
+                    return apiResponse.successResponseOnlyJSONObject(res, page);
                 }
             });
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500)
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
 
+//Returns a page (depending on :id)
 exports.getPage = [
     function (req, res) {
-        //if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        //    return apiResponse.successResponseWithData(res, "Operation success", {});
-        //}
         try {
             Page.findOne({ _id: req.params.id }).then((page) => {
                 if (Page !== null) {
-                    let pageData = new PageData(Page);
+                    //let pageData = new PageData(Page);
                     return apiResponse.successResponseOnlyJSONObject(res, page);
                 } else {
                     return apiResponse.successResponseWithData(res, "Operation success", {});
                 }
             });
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500) 
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
 
-
+//Creates a page (with schema & sub-schema) and adds it to DB
 exports.addPage = [
     body("type", "Type must not be empty.").isLength({ min: 1 }).trim(),
     body("title", "Title must not be empty.").isLength({ min: 1 }).trim(),
     body("author", "Author must not be empty").isLength({ min: 1 }).trim(),
-    //,
-    //sanitizeBody("*").escape(),
     (req, res) => {
         try {
-           
             const errors = validationResult(req);
             var subSchema = SubSchema(req.body.type, req.body.content);
 
+            //Main schema
             var page = new Page(
                 {
                     type: req.body.type,
@@ -106,7 +100,7 @@ exports.addPage = [
                 return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
             }
             else {
-                //Save Question.
+                //Save page
                 page.save(function (err) {
                     if (err) { return apiResponse.ErrorResponse(res, err); }
                     let pageData = new PageData(page);
@@ -114,12 +108,13 @@ exports.addPage = [
                 });
             }
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500) 
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
 
+//Updates a page (:id)
 exports.updatePage = [
     (req, res) => {
         try {
@@ -161,12 +156,13 @@ exports.updatePage = [
                 }
             }
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500) 
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
 
+//Deletes a page (:id)  
 exports.deletePage = [
     function (req, res) {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -189,7 +185,7 @@ exports.deletePage = [
                 
             });
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500) 
             return apiResponse.ErrorResponse(res, err);
         }
     }

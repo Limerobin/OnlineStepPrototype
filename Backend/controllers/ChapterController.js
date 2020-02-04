@@ -1,14 +1,14 @@
-// Mongoose Models
+//Mongoose Models
 const Chapter = require("../models/ChapterModel");
 
-// Middlewares that wraps validator.js validator and sanitizer functions.
+//Middlewares that wraps validator.js validator and sanitizer functions.
 const { body, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 
 const apiResponse = require("../helpers/apiResponse");
 var mongoose = require("mongoose");
 
-// Chapter Schema
+//Chapter Schema (main-schema) 
 function ChapterData(data) {
     this.name = data.name;
     this.author = data.author;
@@ -16,56 +16,47 @@ function ChapterData(data) {
     this.pages = data.pages;
 }
 
+//Returns all chapters
 exports.getChapterList = [
     function (req, res) {
         try {
             Chapter.find({}).then((chapter) => {
                 if (chapter.length > 0) {
-                    return apiResponse.successResponseWithData(res, "Operation success", chapter);
+                    return apiResponse.successResponseOnlyJSONObject(res, chapter);
                 } else {
                     return apiResponse.successResponseWithData(res, "Operation success", []);
                 }
             });
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500)
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
 
+//Returns a chapter (depending on :id)
 exports.getChapter = [
     function (req, res) {
-        //if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        //    return apiResponse.successResponseWithData(res, "Operation success", {});
-        //}
         try {
             Chapter.findOne({ _id: req.params.id }).then((chapter) => {
                 if (Chapter !== null) {
-                    let chapterData = new ChapterData(Chapter);
-                    return apiResponse.successResponseWithData(res, "Operation success.", chapter);
+                    //let chapterData = new ChapterData(Chapter);
+                    return apiResponse.successResponseOnlyJSONObject(res, chapter);
                 } else {
                     return apiResponse.successResponseWithData(res, "Operation success", {});
                 }
             });
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500)
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
 
-
+//Creates a chapter it to DB
 exports.addChapter = [
-    //body("type", "Type must not be empty.").isLength({ min: 1 }).trim(),
-    //body("title", "Title must not be empty.").isLength({ min: 1 }).trim(),
-    //body("author", "Author must not be empty").isLength({ min: 1 }).trim()
-    //,
-    //sanitizeBody("*").escape(),
     (req, res) => {
         try {
-
-            console.log(req.body);
-
             const errors = validationResult(req);
 
             var chapter = new Chapter(
@@ -80,7 +71,7 @@ exports.addChapter = [
                 return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
             }
             else {
-                //Save Question.
+                //Save chapter
                 chapter.save(function (err) {
                     if (err) { return apiResponse.ErrorResponse(res, err); }
                     let chapterData = new Chapter(chapter);
@@ -88,20 +79,15 @@ exports.addChapter = [
                 });
             }
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500)
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
 
+//Updates a chapter (:id)
 exports.updateChapter = [
-    //body("type", "Type must not be empty.").isLength({ min: 1 }).trim(),
-    //body("title", "Title must not be empty.").isLength({ min: 1 }).trim(),
-    //body("author", "Author must not be empty").isLength({ min: 1 }).trim()
-    //,
-    //sanitizeBody("*").escape(),
     (req, res) => {
-
         try {
             const errors = validationResult(req);
             var chapter = new Chapter(
@@ -124,7 +110,7 @@ exports.updateChapter = [
                         if (foundChapter === null) {
                             return apiResponse.notFoundResponse(res, "Chapter not exists with this id");
                         } else {
-                            //update chapter.
+                            //update chapter
                             Chapter.findByIdAndUpdate(req.params.id, chapter, {}, function (err) {
                                 if (err) {
                                     return apiResponse.ErrorResponse(res, err);
@@ -139,12 +125,13 @@ exports.updateChapter = [
                 }
             }
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500)
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
 
+//Deletes a chapter (:id)  
 exports.deleteChapter = [
     function (req, res) {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -155,7 +142,7 @@ exports.deleteChapter = [
                 if (foundChapter === null) {
                     return apiResponse.notFoundResponse(res, "Chapter not exists with this id");
                 } else {
-                    //delete chapter.
+                    //delete chapter
                     Chapter.findByIdAndRemove(req.params.id, function (err) {
                         if (err) {
                             return apiResponse.ErrorResponse(res, err);
@@ -166,7 +153,7 @@ exports.deleteChapter = [
                 }
             });
         } catch (err) {
-            //throw error in json response with status 500. 
+            //Error (status 500)
             return apiResponse.ErrorResponse(res, err);
         }
     }
