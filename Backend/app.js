@@ -6,6 +6,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var pages = require('./routes/pages');
+var chapters = require('./routes/chapters');
 var mongoose = require('mongoose');
 
 var app = express();
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/pages', pages);
+app.use('/chapters', chapters);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

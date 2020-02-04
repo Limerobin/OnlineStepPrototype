@@ -1,11 +1,10 @@
 var express = require("express");
-var userRouter = require("./users");
 var pageRouter = require("./pages");
+var chapterRouter = require("./chapters");
 
 var app = express();
 
-app.use("/users/", userRouter);
 app.use("/pages/", pageRouter);
-app.use("/pages/missing-words", MissingWordRouter);
+app.use("/chapters/", chapterRouter);
 
 module.exports = app;

@@ -64,7 +64,7 @@ exports.getPage = [
         //    return apiResponse.successResponseWithData(res, "Operation success", {});
         //}
         try {
-            Page.findOne({ _id: req.params.id }, "_id type title author").then((page) => {
+            Page.findOne({ _id: req.params.id }).then((page) => {
                 if (Page !== null) {
                     let pageData = new PageData(Page);
                     return apiResponse.successResponseWithData(res, "Operation success.", page);
@@ -90,7 +90,6 @@ exports.addPage = [
         try {
            
             const errors = validationResult(req);
-
             var subSchema = SubSchema(req.body.type, req.body.content);
 
             var page = new Page(
