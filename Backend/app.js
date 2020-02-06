@@ -9,6 +9,7 @@ var pages = require('./routes/pages');
 var chapters = require('./routes/chapters');
 var courses = require('./routes/courses');
 var chaptersPages = require('./routes/chapterPages');
+var coursesChapters = require('./routes/courseChapters');
 var mongoose = require('mongoose');
 
 var app = express();
@@ -38,6 +39,7 @@ app.use('/pages', pages);
 app.use('/chapters', chapters);
 app.use('/chapters/pages', chaptersPages);
 app.use('/courses', courses);
+app.use('/courses/chapters', coursesChapters);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

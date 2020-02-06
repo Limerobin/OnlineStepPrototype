@@ -1,9 +1,9 @@
 var express = require("express");
-const ChapterPageController = require("../controllers/ChapterPageController");
+const CourseChapterController = require("../controllers/CourseChapterController");
 
 var router = express.Router();
 
-router.get("/:id", ChapterPageController.getChapterList);
+router.get("/:id", CourseChapterController.getCourseChapterList);
 //router.post("/", ChapterPageController.addChapter);
 //router.get("/:id", ChapterPageController.getChapter);
 //router.put("/:id", ChapterPageController.updateChapter);
