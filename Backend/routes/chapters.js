@@ -9,6 +9,5 @@ router.get("/:id", ChapterController.getChapter);
 router.put("/:id", ChapterController.updateChapter);
 router.delete("/:id", ChapterController.deleteChapter);
 
-router.get("/pages/", ChapterController.getChapterList);
 
 module.exports = router;
