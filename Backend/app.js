@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var pages = require('./routes/pages');
 var chapters = require('./routes/chapters');
+var courses = require('./routes/courses');
 var chaptersPages = require('./routes/chapterPages');
 var mongoose = require('mongoose');
 
@@ -33,10 +34,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
 app.use('/pages', pages);
 app.use('/chapters', chapters);
 app.use('/chapters/pages', chaptersPages);
+app.use('/courses', courses);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

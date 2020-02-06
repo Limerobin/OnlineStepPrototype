@@ -1,7 +1,7 @@
 //Mongoose Models
+const Course = require("../models/CourseModel");
 const Chapter = require("../models/ChapterModel");
 const Page = require("../models/PageModel");
-
 
 //Middlewares that wraps validator.js validator and sanitizer functions.
 const { body, validationResult } = require("express-validator");
@@ -10,31 +10,25 @@ const { sanitizeBody } = require("express-validator");
 const apiResponse = require("../helpers/apiResponse");
 var mongoose = require("mongoose");
 
-//Chapter Schema (main-schema) 
-function ChapterData(data) {
+//Course Schema (main-schema)
+function CourseData(data) {
     this.name = data.name;
-    this.author = data.author;
+    this.owner = data.owner;
     this.subject = data.subject;
-    this.pages = data.pages;
+    this.chapters = data.chapters;
 }
 
-//Returns all pages for a chapter (:id)
-exports.getChapterList = [
+
+//Returns all chapters
+exports.getCourseList = [
     function (req, res) {
         try {
-            //Finds the chapter using (:id) 
-            Chapter.findOne({ _id: req.params.id }).then((chapter) => {
-                //Finds all pages using the array of page (chapter.pages)
-                Page.find({ _id: { $in: chapter.pages } }).then((pages) => {
-                    
-                    if (Chapter !== null) {
-                        console.log(pages);
-                        return apiResponse.successResponseOnlyJSONObject(res, pages);
-                    } else {
-                        return apiResponse.successResponseWithData(res, "Operation success", {});
-                    }
-                });              
-             
+            Course.find({}).then((course) => {
+                if (course.length > 0) {
+                    return apiResponse.successResponseOnlyJSONObject(res, course);
+                } else {
+                    return apiResponse.successResponseWithData(res, "Operation success", []);
+                }
             });
         } catch (err) {
             //Error (status 500)
@@ -44,13 +38,13 @@ exports.getChapterList = [
 ];
 
 //Returns a chapter (depending on :id)
-exports.getChapter = [
+exports.getCourse = [
     function (req, res) {
         try {
-            Chapter.findOne({ _id: req.params.id }).then((chapter) => {
-                if (Chapter !== null) {
+            Course.findOne({ _id: req.params.id }).then((course) => {
+                if (Course !== null) {
                     //let chapterData = new ChapterData(Chapter);
-                    return apiResponse.successResponseOnlyJSONObject(res, chapter);
+                    return apiResponse.successResponseOnlyJSONObject(res, course);
                 } else {
                     return apiResponse.successResponseWithData(res, "Operation success", {});
                 }
@@ -62,29 +56,29 @@ exports.getChapter = [
     }
 ];
 
-//Creates a chapter it to DB
-exports.addChapter = [
+//Creates a course it to DB
+exports.addCourse = [
     (req, res) => {
         try {
             const errors = validationResult(req);
 
-            var chapter = new Chapter(
+            var course = new Course(
                 {
                     name: req.body.name,
-                    author: req.body.author,
+                    owner: req.body.owner,
                     subject: req.body.subject,
-                    pages: req.body.pages
+                    chapters: req.body.chapters
                 });
 
             if (!errors.isEmpty()) {
                 return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
             }
             else {
-                //Save chapter
-                chapter.save(function (err) {
+                //Save course
+                course.save(function (err) {
                     if (err) { return apiResponse.ErrorResponse(res, err); }
-                    let chapterData = new Chapter(chapter);
-                    return apiResponse.successResponseWithData(res, "Chapter add Successfully.", chapterData);
+                    let courseData = new Course(course);
+                    return apiResponse.successResponseWithData(res, "Course add Successfully.", courseData);
                 });
             }
         } catch (err) {
@@ -94,18 +88,18 @@ exports.addChapter = [
     }
 ];
 
-//Updates a chapter (:id)
-exports.updateChapter = [
+//Updates a course (:id)
+exports.updateCourse = [
     (req, res) => {
         try {
             const errors = validationResult(req);
-            var chapter = new Chapter(
+            var course = new Course(
                 {
                     _id: req.params.id,
                     name: req.body.name,
-                    author: req.body.author,
+                    owner: req.body.owner,
                     subjects: req.body.subjects,
-                    pages: req.body.pages
+                    chapters: req.body.chapters
                 });
 
             if (!errors.isEmpty()) {
@@ -115,17 +109,17 @@ exports.updateChapter = [
                 if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
                     return apiResponse.validationErrorWithData(res, "Invalid Error.", "Invalid ID");
                 } else {
-                    Chapter.findById(req.params.id, function (err, foundChapter) {
-                        if (foundChapter === null) {
-                            return apiResponse.notFoundResponse(res, "Chapter not exists with this id");
+                    Course.findById(req.params.id, function (err, foundCourse) {
+                        if (foundCourse === null) {
+                            return apiResponse.notFoundResponse(res, "Course not exists with this id");
                         } else {
-                            //update chapter
-                            Chapter.findByIdAndUpdate(req.params.id, chapter, {}, function (err) {
+                            //update course
+                            Course.findByIdAndUpdate(req.params.id, course, {}, function (err) {
                                 if (err) {
                                     return apiResponse.ErrorResponse(res, err);
                                 } else {
-                                    let chapterData = new ChapterData(chapter);
-                                    return apiResponse.successResponseWithData(res, "Chapter update Success.", chapterData);
+                                    let courseData = new CourseData(course);
+                                    return apiResponse.successResponseWithData(res, "Course update Success.", courseData);
                                 }
                             });
                         }
@@ -140,23 +134,23 @@ exports.updateChapter = [
     }
 ];
 
-//Deletes a chapter (:id)  
-exports.deleteChapter = [
+//Deletes a course (:id)
+exports.deleteCourse = [
     function (req, res) {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return apiResponse.validationErrorWithData(res, "Invalid Error.", "Invalid ID");
         }
         try {
-            Chapter.findById(req.params.id, function (err, foundChapter) {
-                if (foundChapter === null) {
-                    return apiResponse.notFoundResponse(res, "Chapter not exists with this id");
+            Course.findById(req.params.id, function (err, foundCourse) {
+                if (foundCourse === null) {
+                    return apiResponse.notFoundResponse(res, "Course not exists with this id");
                 } else {
-                    //delete chapter
-                    Chapter.findByIdAndRemove(req.params.id, function (err) {
+                    //delete course
+                    Course.findByIdAndRemove(req.params.id, function (err) {
                         if (err) {
                             return apiResponse.ErrorResponse(res, err);
                         } else {
-                            return apiResponse.successResponse(res, "Chapter delete Success.");
+                            return apiResponse.successResponse(res, "Course delete Success.");
                         }
                     });
                 }
