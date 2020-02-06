@@ -10,6 +10,8 @@ var chapters = require('./routes/chapters');
 var courses = require('./routes/courses');
 var chaptersPages = require('./routes/chapterPages');
 var coursesChapters = require('./routes/courseChapters');
+var indexRouter = require("./routes/index");
+
 
 
 
@@ -38,9 +40,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', indexRouter);
 app.use('/pages', pages);
 app.use('/chapters', chapters);
-app.use('/chapters-pages', chaptersPages);
+app.use('/chapters/pages', chaptersPages);
 app.use('/courses', courses);
 app.use('/courses/chapters', coursesChapters);
 
