@@ -10,8 +10,8 @@ var app = express();
 
 app.use("/pages/", pageRouter);
 app.use("/chapters/", chapterRouter);
-app.use("/chapters-pages/", chapterPagesRouter);
+app.use("/chapters/pages/", chapterPagesRouter);
 app.use("/courses/", courseRouter);
-app.use("/courses/chapters/", courseChapterRouter);
+app.use("/courses-chapters/", courseChapterRouter);
 
 module.exports = app;

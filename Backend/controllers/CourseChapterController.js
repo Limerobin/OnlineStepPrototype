@@ -10,13 +10,6 @@ const { sanitizeBody } = require("express-validator");
 const apiResponse = require("../helpers/apiResponse");
 var mongoose = require("mongoose");
 
-//Course Schema (main-schema)
-function CourseData(data) {
-    this.name = data.name;
-    this.owner = data.owner;
-    this.subject = data.subject;
-    this.chapters = data.chapters;
-}
 
 //Returns all pages for a chapter (:id)
 exports.getCourseChapterList = [
@@ -28,7 +21,6 @@ exports.getCourseChapterList = [
                 Chapter.find({ _id: { $in: course.chapters } }).then((chapters) => {
                     
                     if (chapters !== null) {
-                        console.log(pages);
                         return apiResponse.successResponseOnlyJSONObject(res, chapters);
                     } else {
                         return apiResponse.successResponseWithData(res, "Operation success", {});

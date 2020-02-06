@@ -28,7 +28,6 @@ exports.getChapterList = [
                 Page.find({ _id: { $in: chapter.pages } }).then((pages) => {
                     
                     if (Chapter !== null) {
-                        console.log(pages);
                         return apiResponse.successResponseOnlyJSONObject(res, pages);
                     } else {
                         return apiResponse.successResponseWithData(res, "Operation success", {});
