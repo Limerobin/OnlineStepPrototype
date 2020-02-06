@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/pages', pages);
 app.use('/chapters', chapters);
-app.use('/chapters/pages', chaptersPages);
+app.use('/chapters-pages', chaptersPages);
 app.use('/courses', courses);
 app.use('/courses/chapters', coursesChapters);
 
