@@ -5,13 +5,12 @@ using Xamarin.Forms;
 using Prototype.Models;
 using Newtonsoft.Json;
 using Prototype.Views;
+using Prototype.RestClient;
 
 namespace Prototype.Ctrls
 {
     class Controller
     {
-        private const string url = "https://online-step.herokuapp.com/courses/";
-        private RestClient.RestClient_Alpha RestClient;
         private StackLayout MyLayout;
         private List<Course> Courses;
         private List<Chapter> Chapters;
@@ -25,10 +24,9 @@ namespace Prototype.Ctrls
 
         public void ShowCourses()
         {
-            RestClient = new RestClient.RestClient_Alpha { EndPoint = url };
-            string Response = RestClient.DoRequest();
-            Console.WriteLine(Response.ToString());
-            Courses = JsonConvert.DeserializeObject<List<Course>>(Response);
+            string URL = "https://online-step.herokuapp.com/courses/";
+            string response = GetJSON(URL);
+            Courses = JsonConvert.DeserializeObject<List<Course>>(response);
             foreach(var i in Courses)
             {
                 Button btn = new Button { Text = i.Name };
@@ -55,11 +53,9 @@ namespace Prototype.Ctrls
 
         public void ShowChapters(string ChapterId)
         {
-            string ChapterURL = "https://online-step.herokuapp.com/courses/chapters/"+ChapterId+"";
-            RestClient = new RestClient.RestClient_Alpha { EndPoint = ChapterURL };
-            string Response = RestClient.DoRequest();
-            Console.WriteLine(Response.ToString());
-            Chapters = JsonConvert.DeserializeObject<List<Chapter>>(Response);
+            string URL = "https://online-step.herokuapp.com/courses/chapters/"+ChapterId+"";
+            string response = GetJSON(URL);
+            Chapters = JsonConvert.DeserializeObject<List<Chapter>>(response);
             foreach (var i in Chapters)
             {
                 Button btn = new Button { Text = i.Name };
@@ -84,15 +80,22 @@ namespace Prototype.Ctrls
             MyLayout.Navigation.PushModalAsync(new ContView(id));
         }
 
-        public void ShowContent(string id)
+        public void ShowPageContent(string id)
         {
-            string ContentURL = "https://online-step.herokuapp.com/chapters/pages/" + id + "";
-            RestClient = new RestClient.RestClient_Alpha { EndPoint = ContentURL };
-            string Response = RestClient.DoRequest();
-            Console.WriteLine(Response.ToString());
-            Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(Response);
+            string URL = "https://online-step.herokuapp.com/chapters/pages/" + id + "";
+            string response = GetJSON(URL);
+            Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(response);
             ContentController controller = new ContentController(MyLayout, Contents);
             controller.DisplayEachPage();
+        }
+        private string GetJSON(string URL)
+        {
+            RestClient_Alpha restClient = new RestClient_Alpha
+            {
+                EndPoint = URL
+            };
+            string response = restClient.DoRequest();
+            return response;
         }
     }
 }

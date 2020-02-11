@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Prototype.Ctrls;
 
 namespace Prototype.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ContView : ContentPage
+    public partial class CoursePage : ContentPage
     {
-        public ContView(string id)
+        public CoursePage()
         {
             InitializeComponent();
-            Controller controller = new Controller(ContentPageLayout);
-            controller.ShowPageContent(id);
+            Ctrls.Controller controller = new Ctrls.Controller(CoursePageLayout);
+            controller.ShowCourses();
         }
     }
 }

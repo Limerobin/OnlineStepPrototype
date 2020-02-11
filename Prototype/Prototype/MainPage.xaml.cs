@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Prototype.Views;
 
 namespace Prototype
 {
@@ -16,8 +17,6 @@ namespace Prototype
         public MainPage()
         {
             InitializeComponent();
-            Ctrls.Controller controller = new Ctrls.Controller(MainPageLayout);
-            controller.ShowCourses();
         }
        
     }
