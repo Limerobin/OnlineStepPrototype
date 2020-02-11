@@ -9,9 +9,7 @@ namespace Prototype.Ctrls
 {
     class ClozeTestController
     {
-        // private const string url = "http://users.du.se/~h17najse/Android/assignment/ClozeTest.php";
-
-        private const string url = "http://online-step-api.herokuapp.com/pages";
+        private const string url = "http://users.du.se/~h17najse/Android/assignment/ClozeTest.php";
         private RestClient.RestClient_Alpha RestClient;
         private readonly Label SentenceLbl;
         private readonly StackLayout MyLayout;

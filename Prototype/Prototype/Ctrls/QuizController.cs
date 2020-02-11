@@ -8,10 +8,11 @@ namespace Prototype.Ctrls
 {
     class QuizController
     {
-        private const string url = "http://users.du.se/~h17najse/Android/assignment/test.php";
+        private const string url = "https://online-step.herokuapp.com/pages";
         private RestClient.RestClient_Alpha RestClient;
         private readonly Label QuestionLbl;
         private readonly StackLayout MyLayout;
+        private List<Content> Contents;
         private QuizQuestion question;
         private string[] choices;
         private int index = 0;
@@ -32,7 +33,8 @@ namespace Prototype.Ctrls
             string Response = RestClient.DoRequest();
             Console.WriteLine(Response.ToString());
             //JsonCovert does exactly what is says...
-            Questions = JsonConvert.DeserializeObject<List<QuizQuestion>>(Response);
+            Contents = JsonConvert.DeserializeObject<List<Content>>(Response);
+            ModifyData();
             DoTransition();
         }
 
@@ -93,8 +95,26 @@ namespace Prototype.Ctrls
 
         private string[] CallBackChoices(QuizQuestion question)
         {
-            string[] Choices = new string[3] { question.Alt1, question.Alt2, question.Alt3 };
+            string[] Choices = new string[5];
+            for(int i = 0; i < Questions.Count; i++)
+            {
+                Choices[i] = Questions[i].Answers[i];
+            }
             return Choices;
+        }
+
+        private void ModifyData()
+        {
+            Questions = new List<QuizQuestion>();
+            for (int i = 0; i < Contents.Count; i++)
+            {
+                QuizQuestion q = new QuizQuestion();
+                //q.Question = Contents[i].Question;
+                //q.Answers = Contents[i].Answers;
+                //q.CorrectAnswer = Contents[i].CorrectAnswer;
+                Questions.Add(q);
+            }
+            Console.WriteLine(Questions.Count);
         }
 
     }

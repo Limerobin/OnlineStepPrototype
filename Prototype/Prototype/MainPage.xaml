@@ -6,11 +6,8 @@
              mc:Ignorable="d"
              x:Class="Prototype.MainPage">
 
-    <StackLayout>
+    <StackLayout x:Name="MainPageLayout">
         <!-- Place new controls here -->
-        <Button Text="Quiz" x:Name="QuizBtn" Clicked="QuizProcedure" />
-        <Button Text="DragnDrop" x:Name="DragnDropBtn" Clicked="DragnDropProcedure" />
-        <Button Text="ClozeTest" x:Name="ClozeTestBtn" Clicked="ClozeTestProcedure" />
     </StackLayout>
 
 </ContentPage>

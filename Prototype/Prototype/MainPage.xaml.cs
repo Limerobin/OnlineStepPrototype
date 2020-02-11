@@ -16,21 +16,9 @@ namespace Prototype
         public MainPage()
         {
             InitializeComponent();
+            Ctrls.Controller controller = new Ctrls.Controller(MainPageLayout);
+            controller.ShowCourses();
         }
-
-        private void QuizProcedure(object sender, EventArgs e)
-        {
-            Navigation.PushModalAsync(new Views.QuizPage());
-        }
-
-        private void DragnDropProcedure(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ClozeTestProcedure(object sender, EventArgs e)
-        {
-            Navigation.PushModalAsync(new Views.ClozeTestPage());
-        }
+       
     }
 }
