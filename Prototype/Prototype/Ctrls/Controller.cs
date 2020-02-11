@@ -85,8 +85,8 @@ namespace Prototype.Ctrls
             string URL = "https://online-step.herokuapp.com/chapters/pages/" + id + "";
             string response = GetJSON(URL);
             Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(response);
-            ContentController controller = new ContentController(MyLayout, Contents);
-            controller.DisplayEachPage();
+            PageController PageController = new PageController(MyLayout, Contents);
+            PageController.DisplayEachPage();
         }
         private string GetJSON(string URL)
         {

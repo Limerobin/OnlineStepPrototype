@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Prototype.Ctrls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Prototype.Ctrls;
 
 namespace Prototype.Views
 {
@@ -18,6 +17,7 @@ namespace Prototype.Views
             InitializeComponent();
             Controller controller = new Controller(PageViewLayout);
             controller.ShowPageContent(id);
+
         }
     }
 }
