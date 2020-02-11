@@ -77,7 +77,7 @@ namespace Prototype.Ctrls
                 }
             }
             Console.WriteLine(id);
-            MyLayout.Navigation.PushModalAsync(new ContView(id));
+            MyLayout.Navigation.PushModalAsync(new PageView(id));
         }
 
         public void ShowPageContent(string id)

@@ -11,12 +11,12 @@ using Prototype.Ctrls;
 namespace Prototype.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ContView : ContentPage
+    public partial class PageView : ContentPage
     {
-        public ContView(string id)
+        public PageView(string id)
         {
             InitializeComponent();
-            Controller controller = new Controller(ContentPageLayout);
+            Controller controller = new Controller(PageViewLayout);
             controller.ShowPageContent(id);
         }
     }
