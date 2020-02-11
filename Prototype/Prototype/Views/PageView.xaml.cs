@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Prototype.Ctrls;
+using Prototype.Controllers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,8 +15,8 @@ namespace Prototype.Views
         public PageView(string id)
         {
             InitializeComponent();
-            Controller controller = new Controller(PageViewLayout);
-            controller.ShowPageContent(id);
+            Navigation navigation = new Navigation(PageViewLayout);
+            navigation.ShowPageContent(id);
 
         }
     }

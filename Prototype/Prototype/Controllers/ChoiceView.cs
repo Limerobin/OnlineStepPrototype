@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace Prototype.Ctrls
+namespace Prototype.Controllers
 {
     //Ignore this class for now, is used latet for MVVM or MVC
     public class ChoiceView : StackLayout

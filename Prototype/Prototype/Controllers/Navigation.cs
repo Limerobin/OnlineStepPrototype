@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-using Prototype.Models;
 using Newtonsoft.Json;
+using Prototype.Models;
 using Prototype.Views;
-using Prototype.RestClient;
+using Xamarin.Forms;
 
-namespace Prototype.Ctrls
+namespace Prototype.Controllers
 {
-    class Controller
+    class Navigation
     {
         private StackLayout MyLayout;
         private List<Course> Courses;
@@ -17,7 +15,7 @@ namespace Prototype.Ctrls
         private List<Content.RootObject> Contents;
         
 
-        public Controller(StackLayout layout)
+        public Navigation(StackLayout layout)
         {
             this.MyLayout = layout;
         }
@@ -48,7 +46,7 @@ namespace Prototype.Ctrls
                 }
             }
             Console.WriteLine(id);
-            MyLayout.Navigation.PushModalAsync(new ChapterPage(id));
+            MyLayout.Navigation.PushModalAsync(new ChapterView(id));
         }
 
         public void ShowChapters(string ChapterId)
@@ -85,12 +83,12 @@ namespace Prototype.Ctrls
             string URL = "https://online-step.herokuapp.com/chapters/pages/" + id + "";
             string response = GetJSON(URL);
             Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(response);
-            PageController PageController = new PageController(MyLayout, Contents);
+            Page PageController = new Page(MyLayout, Contents);
             PageController.DisplayEachPage();
         }
         private string GetJSON(string URL)
         {
-            RestClient_Alpha restClient = new RestClient_Alpha
+            RestClient.RestClient restClient = new RestClient.RestClient
             {
                 EndPoint = URL
             };

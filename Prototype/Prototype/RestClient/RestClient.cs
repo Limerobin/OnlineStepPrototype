@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Prototype.RestClient
 {
-    class RestClient_Alpha
+    class RestClient
     {
         //An enumeration type (or enum type) is a value type defined by a set of named constants of the underlying integral numeric type.
         public enum HttpVerb
@@ -18,7 +18,7 @@ namespace Prototype.RestClient
         public HttpVerb HttpMethod { get; set; }
 
         //Constructor that instantiates url (endpoint) and HttpVerb
-        public RestClient_Alpha()
+        public RestClient()
         {
             EndPoint = string.Empty;
             HttpMethod = HttpVerb.GET;

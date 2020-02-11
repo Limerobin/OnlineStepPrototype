@@ -11,7 +11,7 @@ namespace Prototype
         {
             InitializeComponent();
 
-            MainPage = new CoursePage();
+            MainPage = new CourseView();
         }
 
         protected override void OnStart()

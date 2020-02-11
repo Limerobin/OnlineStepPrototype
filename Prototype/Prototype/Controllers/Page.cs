@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 using Prototype.Models;
+using Xamarin.Forms;
 
-namespace Prototype.Ctrls
+namespace Prototype.Controllers
 {
-    class PageController
+    class Page
     {
-        private List<Object> Objects;
+        private List<object> PageList;
         private readonly StackLayout MyLayout;
         private List<Content.RootObject> Contents;
         private List<ClozeTest> ClozeTests;
-        private List<QuizQuestion> Questions;
+        private List<Models.Mcq> Questions;
         private int QIndex = 0;
         private int CIndex = 0;
         private int Index = 0;
-        private QuizQuestion Question;
+        private Models.Mcq Question;
         private ClozeTest ClozeTest;
         private Label QuestionLbl;
         private Label SentenceLbl;
@@ -24,7 +23,7 @@ namespace Prototype.Ctrls
         private List<Button> Btns;
         private string[] choices;
 
-        public PageController(StackLayout layout, List<Content.RootObject> contents)
+        public Page(StackLayout layout, List<Content.RootObject> contents)
         {
             this.MyLayout = layout;
             this.Contents = contents;
@@ -40,30 +39,30 @@ namespace Prototype.Ctrls
         private void DoTransition()
         {
 
-            foreach (var o in Objects)
+            foreach (var page in PageList)
             {
-                if (o.GetType() == typeof(Models.ClozeTest))
+                if (page.GetType() == typeof(Models.ClozeTest))
                 {
-                    ShowClozeTest(o);
+                    ShowClozeTest(page);
                 }
-                if (o.GetType() == typeof(Models.QuizQuestion))
+                if (page.GetType() == typeof(Models.Mcq))
                 {
-                    ShowQuestion(o);
+                    ShowQuestion(page);
                 }
 
                 break;
             }
         }
 
-        private void ShowQuestion(Object o)
+        private void ShowQuestion(Object page)
         {
-            Question = (QuizQuestion) o;
+            Question = (Models.Mcq) page;
             QuestionLbl = new Label { Text = Question.Question, Padding = 35,  TextColor = Color.Black };
             MyLayout.Children.Add(QuestionLbl);
             choices = CallBackChoices(Question);
             CreateMcqAnswerBtn();
         }
-        private string[] CallBackChoices(QuizQuestion question)
+        private string[] CallBackChoices(Models.Mcq question)
         {
             string[] Choices = new string[5];
             for (int i = 0; i < Questions.Count; i++)
@@ -109,30 +108,30 @@ namespace Prototype.Ctrls
         private void DistributeData()
         {
 
-            Objects = new List<object>();
-            Questions = new List<QuizQuestion>();
+            PageList = new List<object>();
+            Questions = new List<Models.Mcq>();
             ClozeTests = new List<ClozeTest>();
             foreach(var i in Contents)
             {
                 if (i.type.ToString().Equals("mcq"))
                 {
-                    QuizQuestion q = new QuizQuestion
+                    Models.Mcq q = new Models.Mcq
                     {
                         Question = i.content.Question, Answers = i.content.Answers,
                         CorrectAnswer = i.content.CorrectAnswer
                     };
                     Questions.Add(q);
-                    Objects.Add(q);
+                    PageList.Add(q);
                 }
 
                 if (i.type.ToString().Equals("cloze"))
                 {
                     ClozeTest c = new ClozeTest {Sentence = i.content.sentence, MissingWords = i.content.MissingWords};
                     ClozeTests.Add(c);
-                    Objects.Add(c);
+                    PageList.Add(c);
                 }
             }       
-            Console.WriteLine(Objects[1]);
+            Console.WriteLine(PageList[1]);
         }
 
     }

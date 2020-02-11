@@ -1,26 +1,26 @@
-﻿using Newtonsoft.Json;
-using Prototype.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Prototype.Models;
 using Xamarin.Forms;
 
-namespace Prototype.Ctrls
+namespace Prototype.Controllers
 {
-    class QuizController
+    class Mcq
     {
         private const string url = "https://online-step.herokuapp.com/pages";
-        private RestClient.RestClient_Alpha RestClient;
+        private RestClient.RestClient RestClient;
         private readonly Label QuestionLbl;
         private readonly StackLayout MyLayout;
         private List<Content> Contents;
-        private QuizQuestion question;
+        private Models.Mcq question;
         private string[] choices;
         private int index = 0;
-        private List<QuizQuestion> Questions;
+        private List<Models.Mcq> Questions;
         private List<Button> Btns;
 
 
-        public QuizController(Label lbl, StackLayout layout)
+        public Mcq(Label lbl, StackLayout layout)
         {
             this.QuestionLbl = lbl;
             this.MyLayout = layout;
@@ -29,7 +29,7 @@ namespace Prototype.Ctrls
         public void ShowQuestions()
         {
             //Instantiation of our RestClient object
-            RestClient = new RestClient.RestClient_Alpha { EndPoint = url };
+            RestClient = new RestClient.RestClient { EndPoint = url };
             string Response = RestClient.DoRequest();
             Console.WriteLine(Response.ToString());
             //JsonCovert does exactly what is says...
@@ -82,7 +82,7 @@ namespace Prototype.Ctrls
             }
         }
 
-        private void RefreshButtons(QuizQuestion question)
+        private void RefreshButtons(Models.Mcq question)
         {
             choices = CallBackChoices(question);
 
@@ -93,7 +93,7 @@ namespace Prototype.Ctrls
 
         }
 
-        private string[] CallBackChoices(QuizQuestion question)
+        private string[] CallBackChoices(Models.Mcq question)
         {
             string[] Choices = new string[5];
             for(int i = 0; i < Questions.Count; i++)
@@ -105,10 +105,10 @@ namespace Prototype.Ctrls
 
         private void ModifyData()
         {
-            Questions = new List<QuizQuestion>();
+            Questions = new List<Models.Mcq>();
             for (int i = 0; i < Contents.Count; i++)
             {
-                QuizQuestion q = new QuizQuestion();
+                Models.Mcq q = new Models.Mcq();
                 //q.Question = Contents[i].Question;
                 //q.Answers = Contents[i].Answers;
                 //q.CorrectAnswer = Contents[i].CorrectAnswer;

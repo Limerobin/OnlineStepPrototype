@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-using Prototype.Models;
 using Newtonsoft.Json;
+using Prototype.Models;
+using Xamarin.Forms;
 
-namespace Prototype.Ctrls
+namespace Prototype.Controllers
 {
     class ClozeTestController
     {
         private const string url = "http://users.du.se/~h17najse/Android/assignment/ClozeTest.php";
-        private RestClient.RestClient_Alpha RestClient;
+        private RestClient.RestClient RestClient;
         private readonly Label SentenceLbl;
         private readonly StackLayout MyLayout;
         private Button SendBtn;
@@ -31,7 +30,7 @@ namespace Prototype.Ctrls
         public void ShowSentence()
         {
             //Instantiation of our RestClient object
-            RestClient = new RestClient.RestClient_Alpha { EndPoint = url };
+            RestClient = new RestClient.RestClient { EndPoint = url };
             string Response = RestClient.DoRequest();
             Console.WriteLine(Response.ToString());
             Sentences = JsonConvert.DeserializeObject<List<ClozeTest>>(Response);           

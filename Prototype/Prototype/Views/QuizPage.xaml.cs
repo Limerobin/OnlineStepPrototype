@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 using System.Threading.Tasks;
+using Prototype.Controllers;
 
 namespace Prototype.Views
 {
@@ -19,7 +20,7 @@ namespace Prototype.Views
         public QuizPage()
         {
             InitializeComponent();
-            Ctrls.QuizController controller = new Ctrls.QuizController(QuestionLbl,myLayout);
+            Controllers.Mcq controller = new Controllers.Mcq(QuestionLbl, myLayout);
             controller.ShowQuestions();
         }    
     }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="Prototype.Views.CoursePage"
+    x:Class="Prototype.Views.CourseView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
@@ -10,6 +10,6 @@
         <StyleSheet Source="/Assets/styles.css" />
     </ContentPage.Resources>-->
     <ContentPage.Content>
-        <StackLayout x:Name="CoursePageLayout" />
+        <StackLayout x:Name="CourseViewLayout" />
     </ContentPage.Content>
 </ContentPage>
