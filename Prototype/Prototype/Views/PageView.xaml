@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              x:Class="Prototype.Views.PageView">
     <ContentPage.Content>
-        <StackLayout x:Name="ContentPageLayout">
+        <StackLayout x:Name="PageViewLayout">
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -16,7 +16,7 @@ namespace Prototype.Views
         public PageView(string id)
         {
             InitializeComponent();
-            Controller controller = new Controller(ContentPageLayout);
+            Controller controller = new Controller(PageViewLayout);
             controller.ShowPageContent(id);
         }
     }
