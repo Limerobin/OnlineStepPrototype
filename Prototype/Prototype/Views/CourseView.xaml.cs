@@ -10,6 +10,7 @@ namespace Prototype.Views
         public CourseView()
         {
             InitializeComponent();
+            
             Navigation navigation = new Navigation(CourseViewLayout);
             navigation.ShowCourses();
         }

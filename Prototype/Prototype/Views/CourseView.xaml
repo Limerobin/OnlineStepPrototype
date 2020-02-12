@@ -6,9 +6,10 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <!--<ContentPage.Resources>
-        <StyleSheet Source="/Assets/styles.css" />
-    </ContentPage.Resources>-->
+    <ContentPage.Resources>
+        
+        <ResourceDictionary Source="/Assets/Global.xaml" />
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout x:Name="CourseViewLayout" />
     </ContentPage.Content>
