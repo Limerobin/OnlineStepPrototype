@@ -11,7 +11,7 @@ namespace Prototype.Views
         public ChapterView(String id)
         {
             InitializeComponent();
-            Navigation navigation = new Navigation(ChapterPageLayout);
+            NavigationController navigation = new NavigationController(ChapterPageLayout);
             navigation.ShowChapters(id);
         }
       

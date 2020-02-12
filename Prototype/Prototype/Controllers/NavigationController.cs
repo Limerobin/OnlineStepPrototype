@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Prototype.Controllers
 {
-    class Navigation
+    class NavigationController
     {
         private StackLayout MyLayout;
         private List<Course> Courses;
@@ -15,9 +15,14 @@ namespace Prototype.Controllers
         private List<Content.RootObject> Contents;
         
 
-        public Navigation(StackLayout layout)
+        public NavigationController(StackLayout layout)
         {
             this.MyLayout = layout;
+            test();
+        }
+        private void test ()
+        {
+            Console.WriteLine("Toast wannabe");
         }
 
         public void ShowCourses()
@@ -46,11 +51,13 @@ namespace Prototype.Controllers
                 }
             }
             Console.WriteLine(id);
+            
             MyLayout.Navigation.PushModalAsync(new ChapterView(id));
         }
 
         public void ShowChapters(string ChapterId)
         {
+            Console.WriteLine("From Courses");
             string URL = "https://online-step.herokuapp.com/courses/chapters/"+ChapterId+"";
             string response = GetJSON(URL);
             Chapters = JsonConvert.DeserializeObject<List<Chapter>>(response);
@@ -75,6 +82,7 @@ namespace Prototype.Controllers
                 }
             }
             Console.WriteLine(id);
+            //MyLayout.Navigation.PushAsync(new PageView(id));
             MyLayout.Navigation.PushModalAsync(new PageView(id));
         }
 
@@ -83,7 +91,7 @@ namespace Prototype.Controllers
             string URL = "https://online-step.herokuapp.com/chapters/pages/" + id + "";
             string response = GetJSON(URL);
             Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(response);
-            Page PageController = new Page(MyLayout, Contents);
+            PageController PageController = new PageController(MyLayout, Contents);
             PageController.DisplayEachPage();
         }
         private string GetJSON(string URL)
@@ -96,4 +104,5 @@ namespace Prototype.Controllers
             return response;
         }
     }
+
 }

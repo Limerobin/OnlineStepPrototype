@@ -10,8 +10,8 @@ namespace Prototype
         public App()
         {
             InitializeComponent();
-
             MainPage = new CourseView();
+
         }
 
         protected override void OnStart()
