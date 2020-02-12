@@ -1,4 +1,5 @@
 ﻿using Prototype.Models;
+using Prototype.Views;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -43,6 +44,12 @@ namespace Prototype.Controllers
         private void DoTransition()
         {
             MyLayout.Children.Clear();
+
+            if (Index == PageList.Count)
+            {
+                MyLayout.Navigation.PopModalAsync();
+                return;
+            }
 
             if (PageList[Index].GetType() == typeof(Models.ClozeTest))
             {

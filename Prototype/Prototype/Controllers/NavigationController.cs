@@ -18,6 +18,11 @@ namespace Prototype.Controllers
         public NavigationController(StackLayout layout)
         {
             this.MyLayout = layout;
+            test();
+        }
+        private void test ()
+        {
+            Console.WriteLine("Toast wannabe");
         }
 
         public void ShowCourses()
@@ -46,11 +51,13 @@ namespace Prototype.Controllers
                 }
             }
             Console.WriteLine(id);
+            
             MyLayout.Navigation.PushModalAsync(new ChapterView(id));
         }
 
         public void ShowChapters(string ChapterId)
         {
+            Console.WriteLine("From Courses");
             string URL = "https://online-step.herokuapp.com/courses/chapters/"+ChapterId+"";
             string response = GetJSON(URL);
             Chapters = JsonConvert.DeserializeObject<List<Chapter>>(response);
@@ -75,6 +82,7 @@ namespace Prototype.Controllers
                 }
             }
             Console.WriteLine(id);
+            //MyLayout.Navigation.PushAsync(new PageView(id));
             MyLayout.Navigation.PushModalAsync(new PageView(id));
         }
 
@@ -96,4 +104,5 @@ namespace Prototype.Controllers
             return response;
         }
     }
+
 }
