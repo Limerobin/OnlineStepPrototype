@@ -34,7 +34,6 @@ namespace Prototype.Controllers
         {
             //Help method
             DistributeData();
-
             DoTransition();
         }
 
@@ -48,13 +47,14 @@ namespace Prototype.Controllers
                 return;
             }
 
-            if (PageList[Index].GetType() == typeof(Models.ClozeTest))
+            switch (PageList[Index].GetType().Name)
             {
-                ShowClozeTest(PageList[Index]);
-            }
-            else if (PageList[Index].GetType() == typeof(Models.Mcq))
-            {
-                ShowQuestion(PageList[Index]);
+                case "ClozeTest":
+                    ShowClozeTest(PageList[Index]);
+                    break;
+                case "Mcq":
+                    ShowQuestion(PageList[Index]);
+                    break;
             }
         }
 
@@ -128,9 +128,9 @@ namespace Prototype.Controllers
         }
         private void ShowClozeTest(Object o)
         {
-            ClozeTest = (ClozeTest)o;
-            SentenceLbl = new Label { Text = ModifiedSentence(), Padding = 35, TextColor = Color.Black };
+            ClozeTest = (ClozeTest) o;
             Input = new Entry { HorizontalOptions = LayoutOptions.CenterAndExpand, WidthRequest = 100 };
+            SentenceLbl = new Label { Text = ModifiedSentence(), Padding = 35, TextColor = Color.Black };      
             MyLayout.Children.Add(SentenceLbl);
             MyLayout.Children.Add(Input);
             MyLayout.Children.Add(SubmitBtn);

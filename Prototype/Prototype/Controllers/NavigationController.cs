@@ -18,18 +18,12 @@ namespace Prototype.Controllers
         public NavigationController(StackLayout layout)
         {
             this.MyLayout = layout;
-            test();
         }
-        private void test ()
-        {
-            Console.WriteLine("Toast wannabe");
-        }
-
+        
         public void ShowCourses()
         {
             string URL = "https://online-step.herokuapp.com/courses/";
-            string response = GetJSON(URL);
-            Courses = JsonConvert.DeserializeObject<List<Course>>(response);
+            Courses = JsonConvert.DeserializeObject<List<Course>>(GetJSON(URL));
             foreach(var i in Courses)
             {
                 Button btn = new Button { Text = i.Name };
@@ -50,17 +44,14 @@ namespace Prototype.Controllers
                     break;
                 }
             }
-            Console.WriteLine(id);
-            
+            Console.WriteLine(id);           
             MyLayout.Navigation.PushModalAsync(new ChapterView(id));
         }
 
         public void ShowChapters(string ChapterId)
         {
-            Console.WriteLine("From Courses");
             string URL = "https://online-step.herokuapp.com/courses/chapters/"+ChapterId+"";
-            string response = GetJSON(URL);
-            Chapters = JsonConvert.DeserializeObject<List<Chapter>>(response);
+            Chapters = JsonConvert.DeserializeObject<List<Chapter>>(GetJSON(URL));
             foreach (var i in Chapters)
             {
                 Button btn = new Button { Text = i.Name };
@@ -82,24 +73,19 @@ namespace Prototype.Controllers
                 }
             }
             Console.WriteLine(id);
-            //MyLayout.Navigation.PushAsync(new PageView(id));
             MyLayout.Navigation.PushModalAsync(new PageView(id));
         }
 
         public void ShowPageContent(string id)
         {
             string URL = "https://online-step.herokuapp.com/chapters/pages/" + id + "";
-            string response = GetJSON(URL);
-            Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(response);
+            Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(GetJSON(URL));
             PageController PageController = new PageController(MyLayout, Contents);
             PageController.DisplayEachPage();
         }
         private string GetJSON(string URL)
         {
-            RestClient.RestClient restClient = new RestClient.RestClient
-            {
-                EndPoint = URL
-            };
+            RestClient.RestClient restClient = new RestClient.RestClient { EndPoint = URL, HttpMethod = RestClient.RestClient.HttpVerb.GET };
             string response = restClient.DoRequest();
             return response;
         }
