@@ -15,7 +15,7 @@ namespace Prototype.Views
         public PageView(string id)
         {
             InitializeComponent();
-            Navigation navigation = new Navigation(PageViewLayout);
+            NavigationController navigation = new NavigationController(PageViewLayout);
             navigation.ShowPageContent(id);
 
         }

@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Prototype.Controllers
 {
-    class Navigation
+    class NavigationController
     {
         private StackLayout MyLayout;
         private List<Course> Courses;
@@ -15,7 +15,7 @@ namespace Prototype.Controllers
         private List<Content.RootObject> Contents;
         
 
-        public Navigation(StackLayout layout)
+        public NavigationController(StackLayout layout)
         {
             this.MyLayout = layout;
         }
@@ -83,7 +83,7 @@ namespace Prototype.Controllers
             string URL = "https://online-step.herokuapp.com/chapters/pages/" + id + "";
             string response = GetJSON(URL);
             Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(response);
-            Page PageController = new Page(MyLayout, Contents);
+            PageController PageController = new PageController(MyLayout, Contents);
             PageController.DisplayEachPage();
         }
         private string GetJSON(string URL)

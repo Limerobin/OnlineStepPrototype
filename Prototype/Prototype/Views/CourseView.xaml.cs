@@ -1,5 +1,4 @@
-﻿using Prototype.Controllers;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Prototype.Views
@@ -10,7 +9,7 @@ namespace Prototype.Views
         public CourseView()
         {
             InitializeComponent();
-            Navigation navigation = new Navigation(CourseViewLayout);
+            Controllers.NavigationController navigation = new Controllers.NavigationController(CourseViewLayout);
             navigation.ShowCourses();
         }
     }
