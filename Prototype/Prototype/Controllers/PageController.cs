@@ -1,5 +1,4 @@
 ﻿using Prototype.Models;
-using Prototype.Views;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -11,10 +10,6 @@ namespace Prototype.Controllers
         private List<object> PageList;
         private readonly StackLayout MyLayout;
         private List<Content.RootObject> Contents;
-        private List<ClozeTest> ClozeTests;
-        private List<Models.Mcq> Questions;
-        private int QIndex = 0;
-        private int CIndex = 0;
         private int Index = 0;
         private Models.Mcq Question;
         private ClozeTest ClozeTest;
@@ -37,7 +32,9 @@ namespace Prototype.Controllers
 
         public void DisplayEachPage()
         {
+            //Help method
             DistributeData();
+
             DoTransition();
         }
 
@@ -158,8 +155,6 @@ namespace Prototype.Controllers
         {
 
             PageList = new List<object>();
-            Questions = new List<Models.Mcq>();
-            ClozeTests = new List<ClozeTest>();
             foreach (var i in Contents)
             {
                 if (i.type.ToString().Equals("mcq"))
@@ -170,14 +165,12 @@ namespace Prototype.Controllers
                         Answers = i.content.Answers,
                         CorrectAnswer = i.content.CorrectAnswer
                     };
-                    Questions.Add(q);
                     PageList.Add(q);
                 }
 
                 if (i.type.ToString().Equals("cloze"))
                 {
                     ClozeTest c = new ClozeTest { Sentence = i.content.sentence, MissingWords = i.content.MissingWords };
-                    ClozeTests.Add(c);
                     PageList.Add(c);
                 }
             }
