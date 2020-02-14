@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Prototype.Models
 {
-    class Chapter
+    public class Chapter
     {
         public List<string> Pages { get; set; }
         public string _id { get; set; }
@@ -13,5 +13,7 @@ namespace Prototype.Models
         public string Subjects { get; set; }
         public int __v { get; set; }
         public string Subject { get; set; }
+
+        public Chapter() {}
     }
 }

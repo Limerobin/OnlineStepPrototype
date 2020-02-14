@@ -9,8 +9,8 @@ namespace Prototype.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CourseView : ContentPage
     {
-        private List<Course> Courses;
-        private NavigationController Controller;
+        private readonly List<Course> Courses;
+        private readonly NavigationController Controller;
         public CourseView(List<Course> courseList)
         {
             InitializeComponent();
@@ -25,9 +25,23 @@ namespace Prototype.Views
             {
                 Button btn = new Button { Text = i.Name };
                 CourseViewLayout.Children.Add(btn);
-                btn.Clicked += Controller.CourseBtnAction;
+                btn.Clicked += CourseBtnAction;
             }
         }
 
+        public void CourseBtnAction(object sender, System.EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string id = string.Empty;
+            foreach (var i in Courses)
+            {
+                if (i.Name.Equals(btn.Text))
+                {
+                    id = i._id;
+                    break;
+                }
+            }
+            Controller.ShowChapters(btn, id);                     
+        }
     }
 }

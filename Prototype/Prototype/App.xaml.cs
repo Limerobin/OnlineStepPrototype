@@ -13,7 +13,6 @@ namespace Prototype
         public App()
         {
             NavigationController controller = new NavigationController();
-            controller.GetCourses();
             MainPage = controller.InitialApp();
         }
 

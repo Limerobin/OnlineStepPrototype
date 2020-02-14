@@ -1,31 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using Prototype.Controllers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Prototype.Models;
 
 namespace Prototype.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChapterView : ContentPage
     {
-        public ChapterView(String id)
+
+        private readonly NavigationController Controller;
+        private List<Chapter> Chapters;
+
+        public ChapterView(List<Chapter> chapterList)
         {
             InitializeComponent();
+            this.Chapters = chapterList;
+            Controller = new NavigationController();
+            ShowChapters();
         }
 
-        public void ShowChapters(string ChapterId)
+        public void ShowChapters()
         {
-            string URL = "https://online-step.herokuapp.com/courses/chapters/" + ChapterId + "";
-            Chapters = JsonConvert.DeserializeObject<List<Chapter>>(GetJSON(URL));
             foreach (var i in Chapters)
             {
                 Button btn = new Button { Text = i.Name };
-                MyLayout.Children.Add(btn);
+                ChapterPageLayout.Children.Add(btn);
                 btn.Clicked += ChapterBtnAction;
             }
         }
 
-        private void ChapterBtnAction(object sender, EventArgs e)
+        public void ChapterBtnAction(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
             string id = string.Empty;
@@ -37,9 +44,7 @@ namespace Prototype.Views
                     break;
                 }
             }
-            Console.WriteLine(id);
-            MyLayout.Navigation.PushModalAsync(new PageView(id));
+            Controller.ShowPageContent(btn, id);
         }
-
     }
 }
