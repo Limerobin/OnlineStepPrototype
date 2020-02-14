@@ -10,61 +10,45 @@ namespace Prototype.Controllers
     class NavigationController
     {
         private StackLayout MyLayout;
-        private List<Course> Courses;
+        private CourseRepository CourseRepository;
         private List<Chapter> Chapters;
         private List<Content.RootObject> Contents;
         
 
-        public NavigationController(StackLayout layout)
+        public NavigationController()
         {
-            this.MyLayout = layout;
+            
         }
-        
-        public void ShowCourses()
+
+
+        public CourseView InitialApp()
         {
+           // GetCourses();
+            CourseView courseView = new CourseView(CourseRepository.CourseList);
+            return courseView;
+        }
+
+        public void GetCourses()
+        {
+            CourseRepository = new CourseRepository();
             string URL = "https://online-step.herokuapp.com/courses/";
-            Courses = JsonConvert.DeserializeObject<List<Course>>(GetJSON(URL));
-            foreach(var i in Courses)
-            {
-                Button btn = new Button { Text = i.Name };
-                MyLayout.Children.Add(btn);
-                btn.Clicked += CourseBtnAction;
-            }
+            CourseRepository.CourseList = JsonConvert.DeserializeObject<List<Course>>(GetJSON(URL));
         }
 
-        private void CourseBtnAction(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            string id = string.Empty;                
-            foreach(var i in Courses)
-            {
-                if (i.Name.Equals(btn.Text))
-                {
-                    id = i._id;
-                    break;
-                }
-            }
-            Console.WriteLine(id);           
-            MyLayout.Navigation.PushModalAsync(new ChapterView(id));
-        }
 
-        public void ShowChapters(string ChapterId)
+        //helper method
+        public void ShowChapters()
         {
             string URL = "https://online-step.herokuapp.com/courses/chapters/"+ChapterId+"";
             Chapters = JsonConvert.DeserializeObject<List<Chapter>>(GetJSON(URL));
-            foreach (var i in Chapters)
-            {
-                Button btn = new Button { Text = i.Name };
-                MyLayout.Children.Add(btn);
-                btn.Clicked += ChapterBtnAction;
-            }
+            
         }
 
-        private void ChapterBtnAction(object sender, EventArgs e)
+        public void CourseBtnAction(object sender, System.EventArgs e)
         {
             Button btn = (Button)sender;
             string id = string.Empty;
-            foreach(var i in Chapters)
+            foreach (var i in Courses)
             {
                 if (i.Name.Equals(btn.Text))
                 {
@@ -72,16 +56,20 @@ namespace Prototype.Controllers
                     break;
                 }
             }
-            Console.WriteLine(id);
-            MyLayout.Navigation.PushModalAsync(new PageView(id));
+
+            string URL = "https://online-step.herokuapp.com/courses/chapters/" + id + "";
+            Chapters = JsonConvert.DeserializeObject<List<Chapter>>(GetJSON(URL));
+            ChapterModel chapterModel = new ChapterModel(id);
+            
+            
         }
 
         public void ShowPageContent(string id)
         {
             string URL = "https://online-step.herokuapp.com/chapters/pages/" + id + "";
             Contents = JsonConvert.DeserializeObject<List<Content.RootObject>>(GetJSON(URL));
-            PageController PageController = new PageController(MyLayout, Contents);
-            PageController.DisplayEachPage();
+            //PageController PageController = new PageController(MyLayout, Contents);
+            //PageController.DisplayEachPage();
         }
         private string GetJSON(string URL)
         {

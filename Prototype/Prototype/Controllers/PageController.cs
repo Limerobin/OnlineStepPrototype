@@ -12,7 +12,7 @@ namespace Prototype.Controllers
         private List<Content.RootObject> Contents;
         private int Index = 0;
         private Models.Mcq Question;
-        private ClozeTest ClozeTest;
+        private Cloze ClozeTest;
         private Label QuestionLbl;
         private Label SentenceLbl;
         private Content.RootObject Content;
@@ -22,12 +22,9 @@ namespace Prototype.Controllers
         private string SelectedAnswer;
         private Entry Input;
 
-        public PageController(StackLayout layout, List<Content.RootObject> contents)
+        public PageController()
         {
-            this.MyLayout = layout;
-            this.Contents = contents;
-            SubmitBtn = new Button { Text = "Submit" };
-            SubmitBtn.Clicked += SubmitBtnAction;
+
         }
 
         public void DisplayEachPage()
@@ -78,7 +75,7 @@ namespace Prototype.Controllers
                 DoTransition();
 
             }
-            else if (PageList[Index].GetType() == typeof(Models.ClozeTest))
+            else if (PageList[Index].GetType() == typeof(Models.Cloze))
             {
                 Index++;
                 DoTransition();
@@ -128,7 +125,7 @@ namespace Prototype.Controllers
         }
         private void ShowClozeTest(Object o)
         {
-            ClozeTest = (ClozeTest) o;
+            ClozeTest = (Cloze) o;
             Input = new Entry { HorizontalOptions = LayoutOptions.CenterAndExpand, WidthRequest = 100 };
             SentenceLbl = new Label { Text = ModifiedSentence(), Padding = 35, TextColor = Color.Black };      
             MyLayout.Children.Add(SentenceLbl);
@@ -170,7 +167,7 @@ namespace Prototype.Controllers
 
                 if (i.type.ToString().Equals("cloze"))
                 {
-                    ClozeTest c = new ClozeTest { Sentence = i.content.sentence, MissingWords = i.content.MissingWords };
+                    Cloze c = new Cloze { Sentence = i.content.sentence, MissingWords = i.content.MissingWords };
                     PageList.Add(c);
                 }
             }

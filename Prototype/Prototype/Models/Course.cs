@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Prototype.Models
 {
-    class Course
+    public class Course
     {
         public List<string> Chapters { get; set; }
         public string _id { get; set; }
