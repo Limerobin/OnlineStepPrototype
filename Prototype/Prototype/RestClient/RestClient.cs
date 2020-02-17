@@ -20,8 +20,7 @@ namespace Prototype.RestClient
         //Constructor that instantiates url (endpoint) and HttpVerb
         public RestClient()
         {
-            EndPoint = string.Empty;
-            HttpMethod = HttpVerb.GET;
+            EndPoint = string.Empty;          
         }
 
         //Returns the string as a stream of data from the Specified EndPoint(url)

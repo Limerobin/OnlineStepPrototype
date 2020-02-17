@@ -12,12 +12,9 @@ namespace Prototype.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PageView : ContentPage
     {
-        public PageView(string id)
+        public PageView()
         {
-            InitializeComponent();
-            NavigationController navigation = new NavigationController(PageViewLayout);
-            navigation.ShowPageContent(id);
-
+            InitializeComponent();           
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Prototype.Models
 {
-    class ClozeTest
+    class Cloze
     {
         public string Sentence { get; set; }
         public List<string> MissingWords { get; set; }
