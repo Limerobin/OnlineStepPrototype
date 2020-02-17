@@ -132,4 +132,7 @@
       <Name>Prototype</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\bg.png" />
+  </ItemGroup>
 </Project>

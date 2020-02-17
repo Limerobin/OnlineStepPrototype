@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 using Prototype.Models;
 using Prototype.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
+using Button = Xamarin.Forms.Button;
 
 namespace Prototype.Controllers
 {
@@ -33,6 +36,7 @@ namespace Prototype.Controllers
             foreach(var i in Courses)
             {
                 Button btn = new Button { Text = i.Name };
+                btn.On<Android>().SetElevation(30); //Får inte Elevation att fungera.
                 MyLayout.Children.Add(btn);
                 btn.Clicked += CourseBtnAction;
             }
