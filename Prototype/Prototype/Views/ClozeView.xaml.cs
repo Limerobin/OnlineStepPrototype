@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Prototype.Controllers;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Prototype.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ClozeTestPage : ContentPage
+    public partial class ClozeView : ContentPage
     {
-        public ClozeTestPage()
+        public ClozeView()
         {
             InitializeComponent();
-            ClozeTestController controller = new ClozeTestController(MyLayout, SentenceLbl, SendBtn, EntryAnswer);
-            controller.ShowSentence();
         }
     }
 }

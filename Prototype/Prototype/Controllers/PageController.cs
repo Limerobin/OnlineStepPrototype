@@ -1,5 +1,4 @@
 ﻿using Prototype.Models;
-using Prototype.Views;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -11,13 +10,9 @@ namespace Prototype.Controllers
         private List<object> PageList;
         private readonly StackLayout MyLayout;
         private List<Content.RootObject> Contents;
-        private List<ClozeTest> ClozeTests;
-        private List<Models.Mcq> Questions;
-        private int QIndex = 0;
-        private int CIndex = 0;
         private int Index = 0;
         private Models.Mcq Question;
-        private ClozeTest ClozeTest;
+        private Cloze ClozeTest;
         private Label QuestionLbl;
         private Label SentenceLbl;
         private Content.RootObject Content;
@@ -27,16 +22,14 @@ namespace Prototype.Controllers
         private string SelectedAnswer;
         private Entry Input;
 
-        public PageController(StackLayout layout, List<Content.RootObject> contents)
+        public PageController()
         {
-            this.MyLayout = layout;
-            this.Contents = contents;
-            SubmitBtn = new Button { Text = "Submit" };
-            SubmitBtn.Clicked += SubmitBtnAction;
+
         }
 
         public void DisplayEachPage()
         {
+            //Help method
             DistributeData();
             DoTransition();
         }
@@ -51,13 +44,14 @@ namespace Prototype.Controllers
                 return;
             }
 
-            if (PageList[Index].GetType() == typeof(Models.ClozeTest))
+            switch (PageList[Index].GetType().Name)
             {
-                ShowClozeTest(PageList[Index]);
-            }
-            else if (PageList[Index].GetType() == typeof(Models.Mcq))
-            {
-                ShowQuestion(PageList[Index]);
+                case "ClozeTest":
+                    ShowClozeTest(PageList[Index]);
+                    break;
+                case "Mcq":
+                    ShowQuestion(PageList[Index]);
+                    break;
             }
         }
 
@@ -81,7 +75,7 @@ namespace Prototype.Controllers
                 DoTransition();
 
             }
-            else if (PageList[Index].GetType() == typeof(Models.ClozeTest))
+            else if (PageList[Index].GetType() == typeof(Models.Cloze))
             {
                 Index++;
                 DoTransition();
@@ -131,9 +125,9 @@ namespace Prototype.Controllers
         }
         private void ShowClozeTest(Object o)
         {
-            ClozeTest = (ClozeTest)o;
-            SentenceLbl = new Label { Text = ModifiedSentence(), Padding = 35, TextColor = Color.Black };
+            ClozeTest = (Cloze) o;
             Input = new Entry { HorizontalOptions = LayoutOptions.CenterAndExpand, WidthRequest = 100 };
+            SentenceLbl = new Label { Text = ModifiedSentence(), Padding = 35, TextColor = Color.Black };      
             MyLayout.Children.Add(SentenceLbl);
             MyLayout.Children.Add(Input);
             MyLayout.Children.Add(SubmitBtn);
@@ -158,8 +152,6 @@ namespace Prototype.Controllers
         {
 
             PageList = new List<object>();
-            Questions = new List<Models.Mcq>();
-            ClozeTests = new List<ClozeTest>();
             foreach (var i in Contents)
             {
                 if (i.type.ToString().Equals("mcq"))
@@ -170,14 +162,12 @@ namespace Prototype.Controllers
                         Answers = i.content.Answers,
                         CorrectAnswer = i.content.CorrectAnswer
                     };
-                    Questions.Add(q);
                     PageList.Add(q);
                 }
 
                 if (i.type.ToString().Equals("cloze"))
                 {
-                    ClozeTest c = new ClozeTest { Sentence = i.content.sentence, MissingWords = i.content.MissingWords };
-                    ClozeTests.Add(c);
+                    Cloze c = new Cloze { Sentence = i.content.sentence, MissingWords = i.content.MissingWords };
                     PageList.Add(c);
                 }
             }

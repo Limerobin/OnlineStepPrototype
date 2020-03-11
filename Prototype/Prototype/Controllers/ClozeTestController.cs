@@ -13,8 +13,8 @@ namespace Prototype.Controllers
         private readonly Label SentenceLbl;
         private readonly StackLayout MyLayout;
         private Button SendBtn;
-        private List<ClozeTest> Sentences;
-        private ClozeTest Sentence;
+        private List<Cloze> Sentences;
+        private Cloze Sentence;
         private int Index = 0;
         private Entry EntryAnswer;
         private string LabelValue;
@@ -33,7 +33,7 @@ namespace Prototype.Controllers
             RestClient = new RestClient.RestClient { EndPoint = url };
             string Response = RestClient.DoRequest();
             Console.WriteLine(Response.ToString());
-            Sentences = JsonConvert.DeserializeObject<List<ClozeTest>>(Response);           
+            Sentences = JsonConvert.DeserializeObject<List<Cloze>>(Response);           
             DoTransitions();
         }
 

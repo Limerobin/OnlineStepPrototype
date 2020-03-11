@@ -1,5 +1,8 @@
 ﻿using Prototype.Views;
 using System;
+using System.Collections.Generic;
+using Prototype.Controllers;
+using Prototype.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,13 +12,14 @@ namespace Prototype
     {
         public App()
         {
-            InitializeComponent();
-            MainPage = new CourseView();
-
+            NavigationController controller = new NavigationController();
+            MainPage = controller.InitialApp();
         }
 
+        
         protected override void OnStart()
         {
+       
         }
 
         protected override void OnSleep()

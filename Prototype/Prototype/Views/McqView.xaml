@@ -4,11 +4,11 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Prototype.Views.QuizPage">
+             x:Class="Prototype.Views.McqView">
     <ContentPage.Content>
-        <StackLayout x:Name="myLayout">
-            <Label Text="Welcome to the quiz" TextColor="Black" Padding="25" />
-            <Label Text=""  x:Name="QuestionLbl" TextColor="Black" Padding="45" />
+        <StackLayout x:Name="McqLayout">
+            <Label x:Name="TitleLbl"
+                />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

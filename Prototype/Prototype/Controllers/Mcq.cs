@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Prototype.Models;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Prototype.Controllers
 {
@@ -52,6 +53,7 @@ namespace Prototype.Controllers
             foreach(var c in choices)
             {
                 Button btn = new Button { Text = c };
+                btn.SetDynamicResource(VisualElement.StyleProperty, "GlobalButtonStyle");
                 Btns.Add(btn);
             }
 
