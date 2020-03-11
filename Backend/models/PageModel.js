@@ -7,7 +7,7 @@ var PageSchema = new Schema(
         type: { type: String, required: true },
         title: { type: String, required: true },
         author: { type: String, required: true },
-        content: {}
+        content: {},
     },
     {
         strict: false // mongoose-schema may "grow"

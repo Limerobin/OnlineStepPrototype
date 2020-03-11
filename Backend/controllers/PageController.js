@@ -15,7 +15,8 @@ function PageData(data) {
     this.type = data.type;
     this.title = data.title;
     this.author = data.author;
-    this.content = data.content; //sub-schema depending on type 
+    this.content = data.content;
+    //sub-schema depending on type
 }
 
 //Creates and returns different SubSchema depending on subType(req.body.type)
@@ -103,8 +104,7 @@ exports.addPage = [
                 //Save page
                 page.save(function (err) {
                     if (err) { return apiResponse.ErrorResponse(res, err); }
-                    let pageData = new PageData(page);
-                    return apiResponse.successResponseWithData(res, "Page add Successfully.", pageData);
+                    return apiResponse.successResponseWithData(res, "Page add Successfully.", page);
                 });
             }
         } catch (err) {

@@ -8,9 +8,12 @@ var McqSchema = new Schema(
         correctAnswer: { type: String, required: true }
     },
     {
+        id: false
+    },
+    {
         strict: false // mongoose-schema may "grow"
     }
 );
 
 // When you call mongoose.model() on a schema, Mongoose compiles a model for you.
-module.exports = mongoose.model('mce', McqSchema);
+module.exports = mongoose.model('mcq', McqSchema);

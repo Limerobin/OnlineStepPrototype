@@ -7,6 +7,9 @@ var ClozeSchema = new Schema(
         missingWords: { type: [String], required: true }
     },
     {
+        id: false
+    },
+    {
         strict: false // mongoose-schema may "grow"
     }
 );
