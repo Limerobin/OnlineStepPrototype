@@ -8,7 +8,7 @@ var McqSchema = new Schema(
         correctAnswer: { type: String, required: true }
     },
     {
-        _id: false
+        strict: false // mongoose-schema may "grow"
     }
 );
 

@@ -11,7 +11,7 @@ var PageSchema = new Schema(
     },
     {
         strict: false // mongoose-schema may "grow"
-    } 
+    }
 );
 
 module.exports = mongoose.model("pages", PageSchema);
