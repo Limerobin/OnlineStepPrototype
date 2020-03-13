@@ -7,7 +7,8 @@ var ChapterSchema = new Schema(
         name: { type: String, required: true },
         author: { type: String, required: true },
         subject: { type: String, required: true },
-        pages: { type: [Schema.Types.ObjectId], required: true }
+        pages: { type: [Schema.Types.ObjectId], required: true },
+        level: { type: String, required: true }
     },
     {
          strict: false // tells to mongoose that schema may "grow"

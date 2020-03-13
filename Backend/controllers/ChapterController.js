@@ -14,6 +14,7 @@ function ChapterData(data) {
     this.author = data.author;
     this.subject = data.subject;
     this.pages = data.pages;
+    this.level = data.level;
 }
 
 //Returns all chapters
@@ -64,7 +65,8 @@ exports.addChapter = [
                     name: req.body.name,
                     author: req.body.author,
                     subject: req.body.subject,
-                    pages: req.body.pages
+                    pages: req.body.pages,
+                    level: req.body.level
                 });
 
             if (!errors.isEmpty()) {
@@ -96,7 +98,8 @@ exports.updateChapter = [
                     name: req.body.name,
                     author: req.body.author,
                     subjects: req.body.subjects,
-                    pages: req.body.pages
+                    pages: req.body.pages,
+                    level: req.body.level
                 });
 
             if (!errors.isEmpty()) {
